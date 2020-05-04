@@ -1,10 +1,12 @@
 class Api::V1::BooksController < Api::V1::BaseController
   before_action :set_book, only: [ :show ]
 
+  # GET /books/ endpoint
   def index
     @books = policy_scope(Book)
   end
 
+  # GET /book/{{id}}/ endpoint
   def show
     @authors = []
     @book.authors.each do |author|
@@ -13,6 +15,7 @@ class Api::V1::BooksController < Api::V1::BaseController
     @authors
   end
 
+  # POST /books/ endpoint
   def create
     @book = Book.new(book_params)
     authorize @book
@@ -47,7 +50,6 @@ class Api::V1::BooksController < Api::V1::BaseController
   def book_params
     params[:published_date] = DateTime.parse(params[:published_date]["$date"])
     params.permit(:title, :isbn, :authors, :published_date, :short_description, :long_description, :thumbnail_url)
-
   end
 
   def render_error

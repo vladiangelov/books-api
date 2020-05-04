@@ -1,10 +1,12 @@
 class Api::V1::AuthorsController < Api::V1::BaseController
   before_action :set_author, only: [ :show ]
 
+  # GET /authors/ endpoint
   def index
     @authors = policy_scope(Author)
   end
 
+  # GET /author/{{id}} endpoint
   def show
     @books = []
     @author.books.each do |book|
@@ -13,6 +15,8 @@ class Api::V1::AuthorsController < Api::V1::BaseController
     @books
   end
 
+  # POST /authors/ endpoint
+  # TODO Add authorisation
   def create
     @author = Author.new(author_params)
     authorize @author
